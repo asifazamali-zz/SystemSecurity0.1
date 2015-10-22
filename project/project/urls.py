@@ -17,7 +17,7 @@ urlpatterns = patterns('',
     url(r'^save/','security.views.save', name = 'file_save'),
     url(r'^save_details/','security.views.save_details', name = 'save_details'),
     url(r'^update_privacy/','security.views.update_privacy', name = 'update_privacy'),
-
+    url('r^check_read/','security.views.check_read',name='check_read'),
     url(r'^demo/','security.views.demo', name = 'demo'),    
 
     url(r'^register/complete/$','security.views.registration_complete',name='registration_complete'),   

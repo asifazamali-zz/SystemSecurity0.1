@@ -22,29 +22,41 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/project/project/urls.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="19" column="71" selection-start-line="19" selection-start-column="71" selection-end-line="19" selection-end-column="71" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/project/security/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.48793104">
-              <caret line="72" column="17" selection-start-line="72" selection-start-column="17" selection-end-line="72" selection-end-column="17" />
+            <state vertical-scroll-proportion="-14.444445">
+              <caret line="593" column="10" selection-start-line="593" selection-start-column="10" selection-end-line="593" selection-end-column="10" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
-                <marker date="1445525592751" expanded="true" signature="14752:14822" placeholder="Select * fro..request_send..." />
-                <marker date="1445525592751" expanded="true" signature="16748:16799" placeholder="Select * fro..security_friends..." />
-                <marker date="1445525592751" expanded="true" signature="16889:16933" placeholder="Select * fro..documents..." />
-                <marker date="1445525592751" expanded="true" signature="18656:18701" placeholder="Select * fro..documents..." />
-                <marker date="1445525592751" expanded="true" signature="21665:21800" placeholder="update profi..." />
+                <marker date="1445538371443" expanded="true" signature="14923:14993" placeholder="Select * fro..request_send..." />
+                <marker date="1445538371443" expanded="true" signature="16919:16970" placeholder="Select * fro..security_friends..." />
+                <marker date="1445538371443" expanded="true" signature="17060:17104" placeholder="Select * fro..documents..." />
+                <marker date="1445538371443" expanded="true" signature="18827:18872" placeholder="Select * fro..documents..." />
+                <marker date="1445538371443" expanded="true" signature="21836:21971" placeholder="update profi..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="home.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="home.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/project/security/templates/home.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-55.016666">
-              <caret line="442" column="58" selection-start-line="442" selection-start-column="58" selection-end-line="442" selection-end-column="58" />
-              <folding />
+            <state vertical-scroll-proportion="0.43345323">
+              <caret line="415" column="24" selection-start-line="415" selection-start-column="24" selection-end-line="415" selection-end-column="24" />
+              <folding>
+                <element signature="e#14154#14182#0#HTML" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -53,7 +65,7 @@
         <entry file="file://$PROJECT_DIR$/project/security/models.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="42" column="5" selection-start-line="42" selection-start-column="5" selection-end-line="42" selection-end-column="5" />
+              <caret line="23" column="70" selection-start-line="23" selection-start-column="70" selection-end-line="23" selection-end-column="70" />
               <folding />
             </state>
           </provider>
@@ -67,6 +79,7 @@
         <option value="$PROJECT_DIR$/project/static_in_pro/our_static/js/user_defined.js" />
         <option value="$PROJECT_DIR$/project/security/models.py" />
         <option value="$PROJECT_DIR$/project/security/templates/home.html" />
+        <option value="$PROJECT_DIR$/project/project/urls.py" />
         <option value="$PROJECT_DIR$/project/security/views.py" />
       </list>
     </option>
@@ -533,16 +546,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/project/project/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#39#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/project/project/settings.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-1.461039">
@@ -562,30 +565,40 @@
     <entry file="file://$PROJECT_DIR$/project/security/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="42" column="5" selection-start-line="42" selection-start-column="5" selection-end-line="42" selection-end-column="5" />
+          <caret line="23" column="70" selection-start-line="23" selection-start-column="70" selection-end-line="23" selection-end-column="70" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/project/security/templates/home.html">
+    <entry file="file://$PROJECT_DIR$/project/project/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-55.016666">
-          <caret line="442" column="58" selection-start-line="442" selection-start-column="58" selection-end-line="442" selection-end-column="58" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="19" column="71" selection-start-line="19" selection-start-column="71" selection-end-line="19" selection-end-column="71" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/project/security/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.48793104">
-          <caret line="72" column="17" selection-start-line="72" selection-start-column="17" selection-end-line="72" selection-end-column="17" />
+        <state vertical-scroll-proportion="-14.444445">
+          <caret line="593" column="10" selection-start-line="593" selection-start-column="10" selection-end-line="593" selection-end-column="10" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
-            <marker date="1445525592751" expanded="true" signature="14752:14822" placeholder="Select * fro..request_send..." />
-            <marker date="1445525592751" expanded="true" signature="16748:16799" placeholder="Select * fro..security_friends..." />
-            <marker date="1445525592751" expanded="true" signature="16889:16933" placeholder="Select * fro..documents..." />
-            <marker date="1445525592751" expanded="true" signature="18656:18701" placeholder="Select * fro..documents..." />
-            <marker date="1445525592751" expanded="true" signature="21665:21800" placeholder="update profi..." />
+            <marker date="1445538371443" expanded="true" signature="14923:14993" placeholder="Select * fro..request_send..." />
+            <marker date="1445538371443" expanded="true" signature="16919:16970" placeholder="Select * fro..security_friends..." />
+            <marker date="1445538371443" expanded="true" signature="17060:17104" placeholder="Select * fro..documents..." />
+            <marker date="1445538371443" expanded="true" signature="18827:18872" placeholder="Select * fro..documents..." />
+            <marker date="1445538371443" expanded="true" signature="21836:21971" placeholder="update profi..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/project/security/templates/home.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.43345323">
+          <caret line="415" column="24" selection-start-line="415" selection-start-column="24" selection-end-line="415" selection-end-column="24" />
+          <folding>
+            <element signature="e#14154#14182#0#HTML" expanded="true" />
           </folding>
         </state>
       </provider>

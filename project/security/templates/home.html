@@ -412,8 +412,11 @@ rawFile.send(null);
                         {% for documents in mydocs %}
 
                                 <li>{{documents.docfile|filename}}
-
-                                <input type="button" id="lesen" value="Read" onclick="readTextFile('{{ documents.docfile.url }}','{{documents.docfile.name }}','{{documents.write}}')" />
+                                <form method="POST" action = "check_read/">{% csrf_token %}
+                                <input type="hidden" name="doc_file" value="{{documents.docfile.url}}">
+                                <input name='read' type="submit" id="lesen" value="Read"/>
+                                {#        onclick="readTextFile('{{ documents.docfile.url }}','{{documents.docfile.name }}','{{documents.write}}')" />#}
+                                </form>
                                     <select class="privacy_doc" name="{{documents.docfile.url}}" value="submit" id="privacy_doc">
                                         <option value="0">Private</option>
                                         <option value="1">Friends</option>
@@ -425,7 +428,7 @@ rawFile.send(null);
 
                         {% endfor %}
                         </ul>
-        </form>
+                            </form>
 
                 {% else %}
                         <p>No documents.</p>

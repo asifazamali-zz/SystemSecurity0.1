@@ -79,7 +79,8 @@ def home(request):
 ################################################################################FreindPrivacy######################################################
     else:
         form = DocumentForm()
-    mydocs = Document.objects.filter(user_name=request.user.username).filter(grantor='00000')
+    #mydocs = Document.objects.filter(user_name=request.user.username).filter(grantor='00000')             ########using sqlite3
+    mydocs = Document_mongo.objects.filter(user_id=request.user.pk)                                        ########using mongodb
     sql = PrivacyDocs.objects.filter(user_name=request.user.username)
     docs_privacy=''
     i=0
@@ -91,8 +92,8 @@ def home(request):
         #####################################################docs Privacy###########################################################
     #print docs_privacy
     shared_docs = Document.objects.filter(user_name=request.user.username).exclude(grantor='00000')
-    q   = Friends.objects.filter(user_name=request.user.username)
-    r   = Friends.objects.filter(friend_name=request.user.username)
+    q = Friends.objects.filter(user_name=request.user.username)
+    r = Friends.objects.filter(friend_name=request.user.username)
     det=Details.objects.filter(user_name=request.user.username)
     name=''
     age=''
@@ -180,12 +181,12 @@ def list1(request):
             instance.save()
             sql = Document.objects.latest('id')
             if(sql):
-                #print sql.docfile
+                print sql.docfile
                 file =sql.docfile
             sql=PrivacyDocs(user_name=request.user.username,docfile=file,privacy=0)
             sql.save()
             # Object Label Creation()
-            doc_rwlabel(request)
+            doc_rwlabel(request,sql.docfile)
 
             return HttpResponseRedirect('/')
     else:
@@ -565,10 +566,11 @@ def registration_complete(request):
 
 ######################################################Registration Redux ###################################################
 #####################################################Object Label Creation########################################
-def doc_rwlabel(self):
+def doc_rwlabel(self,file_path):
     self.object_id = Document_mongo.objects.create(
             title= "title",
-            user_id= self.user.username,
+            user_id= self.user.pk,
+            docfile=file_path,
             #date_created= datetime.now(),
             entities= "entities",
             is_public=False,
@@ -577,4 +579,16 @@ def doc_rwlabel(self):
     result = MakeRWLabel(temp,self.session)
     print 'label created'+str(result['bool'])
     return
-###
+#########################################################################################################################
+def check_ifcread(self,request=None,**kwargs):
+    document = Document_mongo.objects.find_one(_id=ObjectId())
+    if request is not None and not document.is_visible(user_id=request.user.id):
+        print 'abc'
+        #raise ImmediateHttpResponse(response=http.HttpUnauthorized())
+
+    return document
+########################################################################################################################
+def check_read(request):
+    url = request.POST.get('doc_file','No_url')
+    print url
+    return

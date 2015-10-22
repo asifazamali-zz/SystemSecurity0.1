@@ -21,6 +21,7 @@ def get_upload_file_name(self,filename):
 class Document_mongo(models.Model):
     title=models.CharField(max_length=200)
     user_id=models.CharField(max_length=200)
+    docfile = models.FileField(upload_to=dummyfunction,default='00000')
     data_created=models.DateTimeField(auto_now_add=True, blank=True)
     entities=models.CharField(max_length=200)
     is_public = models.BooleanField(default=False)
