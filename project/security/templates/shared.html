@@ -1,0 +1,67 @@
+{%extends 'base.html'%}
+{%load staticfiles%}
+{%load filename%}
+{%block fileuploads%}
+
+        <div class="row" align='right'>
+                <div class="col-md-12">
+                {% if shared %}
+                       
+                        <ol style="list-style-type:none">
+                        {% for shr in shared %}
+                                <form action="" method="POST">{% csrf_token %}
+                                <li>{{shr.docfile|filename }}
+                                <select name="friend_select" required>
+                                <option value="">Select friends</option>
+                                {% if friends %}
+                                {%for frnd in friends%}
+                                <option value="{{frnd.friend_name}}">{{frnd.friend_name}}</option>
+                                {% endfor %}
+                                {% endif %}
+                                </select>
+                                <select name="write_select">
+                                <option value="0">Can Read</option>
+                                <option value="1">Can Edit</option>
+                                </select>
+                                <input type="hidden" name="docfile" value="{{shr.docfile}}">
+                                {%if shr.owner %}
+                                <input type="submit" value="Share">
+                                {% endif %}
+                                </form>
+                                </li>
+                                                        
+                        {% endfor %}
+                        </ol>
+                {% else %}
+                        <p>No documents.</p>
+                
+                {% endif %}
+                </div>
+        </div>
+               
+                
+{%endblock%}
+                                  
+  <!-- Modal -->
+  <!--<div class="modal fade" id="myModal" role="dialog">-->
+    <!--<div class="modal-dialog">-->
+    
+      <!--<!-- Modal content-->-->
+      <!--<div class="modal-content">-->
+        <!--<div class="modal-header">-->
+          <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
+          <!--<h4 class="modal-title">Modal Header</h4>-->
+        <!--</div>-->
+        <!--<div class="modal-body">-->
+          <!--<p>Some text in the modal.</p>-->
+        <!--</div>-->
+        <!--<div class="modal-footer">-->
+          <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+        <!--</div>-->
+      <!--</div>-->
+      
+    <!--</div>-->
+  <!--</div>-->
+
+                                
+                              

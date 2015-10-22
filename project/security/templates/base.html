@@ -1,0 +1,33 @@
+
+{%load staticfiles%}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {%include 'header.html'%}
+     <title>R&ampD Project</title>
+  </head>
+
+  <body>
+
+    <!-- Static navbar -->
+    {%include 'nav.html'%}
+    <div class="container">
+      {%include 'modal.html'%}
+      {%block jumbotron%}
+      {%endblock%}
+      <!-- Main component for a primary marketing message or call to action -->
+     <div class="content"> 
+      {%block content%}
+      {%endblock %}
+
+    </div> <!-- /container -->
+    {%block fileuploads%}
+    {%endblock%}
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    {%include 'footer.html'%}
+  </body>
+</html>

@@ -1,0 +1,95 @@
+{%extends 'base.html'%}
+{%load staticfiles%}
+{%load crispy_forms_tags%}
+{%block fileuploads%}
+<style>
+#id_message{
+visibility:hidden;
+}
+</style>
+<script>
+	function popitup2(file,file_path,can_write) {
+    var rawFile = new XMLHttpRequest();
+	rawFile.open("GET", file, true);
+	//rawFile.send();
+    rawFile.onreadystatechange = function () {
+       if (rawFile.readyState === 4) {
+           if (rawFile.status === 200 || rawFile.status == 0) {
+
+		       var allText = rawFile.responseText;
+			   newwindow2=window.open('','name','height=200,width=150');
+               var tmp = newwindow2.document;
+                tmp.write('<html><head><title>popup</title>');
+                tmp.write('</head><body><p>this is once again a popup.</p>');
+                tmp.write('<p>');
+               // tmp.write(allText);
+                tmp.write('</p>');
+                tmp.write('<p><a href="javascript:self.close()">close</a> the popup.</p>');
+                tmp.write('</body></html>');
+                tmp.close();
+            }
+        }
+    }
+}
+//function readTextFile(file,file_path,can_write)
+//{
+//	var rawFile = new XMLHttpRequest();
+//	rawFile.open("GET", file, false);
+//	rawFile.onreadystatechange = function ()
+//{
+//	if(rawFile.readyState === 4)
+//	{
+//	if(rawFile.status === 200 || rawFile.status == 0)
+//	{
+//		var allText = rawFile.responseText;
+//
+//		document.getElementById('id_message').style.visibility= 'visible';
+//		document.getElementById('id_filePath').value=file_path;
+//		document.getElementById("id_message").innerHTML=allText;
+//		if(can_write=='True')
+//			document.getElementById('submit').style.visibility='visible';
+//	}
+//	}
+//}
+//rawFile.send(null);
+//}
+</script>
+	<div class="row" align='right'>
+		<div class="col-md-12">
+		<b>Uploaded Files</b>
+		{% if document %}
+			
+			<ul>
+			{% for documents in document %}
+				{%ifequal documents.user_name request.user.username%}
+				<li>{{documents.docfile.name }}
+				<input type="button" id="lesen" value="Read" onclick="readTextFile('{{ documents.docfile.url }}','{{documents.docfile.name }}','{{documents.write}}')" /></li>
+				{%endifequal%}			
+			{% endfor %}
+			</ul>
+		{% else %}
+			<p>No documents.</p>
+		{% endif %}
+		</div>
+	</div>
+		<form action="{% url 'upload' %}" method="post" enctype="multipart/form-data">
+			{% csrf_token %}
+			
+			<p> Select File to upload</p>
+			<p>
+			{{form}}
+			</p>
+			<p><input type="submit" value="Upload" /></p>
+		</form>
+		<p>
+		<form action="{% url 'file_save' %}" method='post'>{% csrf_token %}
+			
+				{{txt }}
+		
+		<br>
+		
+		<input type="submit" id="submit" value="Save" style="visibility:hidden;">
+		</form>
+		</p>
+		
+{%endblock%}

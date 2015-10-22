@@ -1,0 +1,87 @@
+{%extends 'base.html'%}
+{%load crispy_forms_tags%}
+{%block jumbotron%}
+ <div class="row">
+  <div class="col-sm-2">
+      <!--#############Welcome Tag################-->
+
+    {% if user.is_authenticated %}
+          <p><b>Welcome</b> {{name}}</p>
+    {% endif %}
+  </div>
+  <div class="col-sm-2"></div>
+  <div class="col-sm-2"></div>
+   <div class="col-sm-2"></div>
+  <div class="col-sm-1"></div>
+  <div class="col-sm-3 " >
+    <div class="panel panel-default">
+      <div class="panel-heading">
+
+      Friends
+
+      </form>
+      </div>
+      <div class="panel-body ">
+      {%if friends %}
+      <ol style="list-style-type:none">
+
+        {% for frnd in friends %}
+            <li><a href="/find_friend/?q={{frnd.friend_name}}">{{frnd.friend_name }}</a></li>
+        {% endfor %}
+      </ol> 
+      
+      {%endif %}
+      </div>
+    </div>  
+  </div>
+  
+</div>
+<div class="row">
+<div class="col-sm-2">
+    <p>
+		<form action="{% url 'file_save' %}" method='post'>{% csrf_token %}
+
+				{{txt }}
+
+		<br>
+
+		<input type="submit" id="submit" value="Save" style="visibility:hidden;">
+		</form>
+		</p>
+</div>
+  <div class="col-sm-2">
+
+</div>
+  <div class="col-sm-2"></div>
+  <div class="col-sm-2"></div>
+  <div class="col-sm-1"></div>
+  <div class="col-sm-3 " >
+    <div class="panel panel-default">
+      <div class="panel-heading">
+      Uploads
+
+      </div>
+      <div class="panel-body ">
+      {% if document %}
+                        
+                        <ul style="list-style-type:none">
+                        {% for documents in document %}
+
+                                <li>{{documents.docfile.name }}
+                                <input type="button" id="lesen" value="Read" onclick="readTextFile('{{ documents.docfile.url }}','{{documents.docfile.name }}','{{documents.write}}')" /></li>
+
+                        {% endfor %}
+                        </ul>
+                {% else %}
+                        <p>No documents.</p>
+                {% endif %}
+      </div>
+    </div>  
+  </div>
+  
+</div>
+
+{%endblock%}
+{%block content%}
+
+{%endblock%}

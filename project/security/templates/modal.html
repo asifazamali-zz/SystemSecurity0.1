@@ -1,0 +1,65 @@
+
+
+<!--<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>-->
+ <div class="modal fade" id="find_friend_modal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Modal Header</h4>
+        </div>
+        <div class="modal-body">
+          <p>
+          {%if find_friend %}
+          <ol style="list-style-type:none">
+          {% for frnd in find_friend %}
+            <form method="POST" action="{% url 'find_friend' %}">{%csrf_token%}
+            <li>{{frnd}}<input type="hidden" name="frnd_name" value="{{frnd}}"><input type="submit" value="send Request"></li>
+            </form>   {% endfor %}
+          </ol> 
+          {% else %}
+                        <p>No Friend.</p>
+          {%endif %}          
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+  
+<div class="modal fade" id="file_read_modal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Modal Header</h4>
+        </div>
+        <div class="modal-body">
+          <p>
+          {%if find_friend %}
+          <ol style="list-style-type:none">
+          {% for frnd in find_friend %}
+            <form method="POST" action="">{%csrf_token%}
+            <li>{{frnd.user_name}}<input type="hidden" name="frnd_name" value="{{ frnd.user_name}}"><input type="submit" value="send Request"></li>
+            </form>   {% endfor %}
+          </ol> 
+          {% else %}
+                        <p>No Friend.</p>
+          {%endif %}          
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>

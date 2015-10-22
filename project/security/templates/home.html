@@ -1,0 +1,464 @@
+{%extends 'base.html'%}
+{%load crispy_forms_tags%}
+{%load filename%}
+{%block jumbotron%}
+{%load staticfiles%}
+<style>
+    #privacy_name{
+        visibility:hidden
+
+    }
+    #privacy_age{
+        visibility:hidden
+
+    }
+    #privacy_location{
+        visibility:hidden
+
+    }
+    #privacy_phnumber{
+        visibility:hidden
+
+    }
+    #privacy_email{
+        visibility:hidden
+
+    }
+    #privacy_friend{
+        visibility: hidden;
+    }
+    .privacy_doc{
+        visibility: hidden;
+    }
+    .privacy_show{
+        visibility: visible;
+    }
+</style>
+<script>
+        function readTextFile(file,file_path,can_write)
+{
+	var rawFile = new XMLHttpRequest();
+	rawFile.open("GET", file, false);
+	rawFile.onreadystatechange = function ()
+{
+	if(rawFile.readyState === 4)
+	{
+	if(rawFile.status === 200 || rawFile.status == 0)
+	{
+		var allText = rawFile.responseText;
+
+		document.getElementById('id_message').style.visibility= 'visible';
+		document.getElementById('id_filePath').value=file_path;
+		document.getElementById("id_message").innerHTML=allText;
+		if(can_write=='True')
+			document.getElementById('submit').style.visibility='visible';
+	}
+	}
+}
+rawFile.send(null);
+}
+
+
+    function edit_doc(i,list){
+
+        var doc_dropdown = document.getElementsByClassName('privacy_doc');
+        var textdemo =document.getElementById('textdemo');
+        while (i--)
+            //doc_dropdown[0].className='privacy_show';
+            if(list[i]!='0'){
+               doc_dropdown[i][0].defaultSelected=false;
+                doc_dropdown[i][parseInt(list[i])].defaultSelected=true;
+            }
+
+        var s = document.createElement("input");
+        var edit = document.getElementById('edit_doc');
+        var panel = document.getElementById('doc_panel');
+        doc_dropdown[0].className='privacy_show';
+        //doc.style.visibility='visible';
+        s.setAttribute('type',"submit");
+        s.setAttribute('value',"Save");
+
+        panel.appendChild(s);
+        edit.parentNode.removeChild(edit);
+
+
+    }
+
+
+	function edit_friend(f_p){
+        var doc=document.getElementById('privacy_friend');
+        var s = document.createElement("input"); //input element, Submit button
+        var edit = document.getElementById('edit_friend');
+        edit.parentNode.removeChild(edit);
+        doc.style.visibility='visible';
+        s.setAttribute('type',"submit");
+        s.setAttribute('value',"Save");
+
+        doc.parentNode.appendChild(s);
+        if(f_p){
+            if(f_p!='0'){
+                doc[0].defaultSelected=false;
+                doc[parseInt(f_p)].defaultSelected=true;
+            }
+        }
+    }
+
+    function edit(n,a,l,p,e,pr_name,pr_age,pr_location,pr_phnumber,pr_email){
+
+
+
+
+        var name=document.getElementById("name");
+        var age=document.getElementById("age");
+        var location=document.getElementById("location");
+        var phnumber=document.getElementById("phnumber");
+        var email=document.getElementById("email");
+
+
+
+        var edit = document.getElementById("Edit");
+        var input1 = document.createElement("input");
+        var input2 = document.createElement("input");
+        var input3 = document.createElement("input");
+        var input4 = document.createElement("input");
+        var input5 = document.createElement("input");
+
+
+
+
+
+        var privacy_name = document.getElementById('privacy_name');
+        var privacy_age = document.getElementById('privacy_age');
+        var privacy_location = document.getElementById('privacy_location');
+        var privacy_phnumber = document.getElementById('privacy_phnumber');
+        var privacy_email = document.getElementById('privacy_email');
+
+        input1.type = "text";
+        input1.name ="name";
+        input1.value=pr_name;
+        input2.type = "text";
+        input2.name ="age";
+        input2.value=pr_age;
+        input3.type = "text";
+        input3.name ="location";
+        input3.value =pr_location;
+        input4.type = "text";
+        input4.name ="phnumber";
+        input4.value = pr_phnumber;
+        input5.type = "text";
+        input5.name ="email";
+        input5.value = pr_email;
+        edit.parentNode.removeChild(edit);
+        name.parentNode.replaceChild(input1,name); // put it into the DOM
+        age.parentNode.replaceChild(input2,age); // put it into the DOM
+        location.parentNode.replaceChild(input3,location); // put it into the DOM
+        phnumber.parentNode.replaceChild(input4,phnumber); // put it into the DOM
+        email.parentNode.replaceChild(input5,email); // put it into the DOM
+
+        var s = document.createElement("input"); //input element, Submit button
+        s.setAttribute('type',"submit");
+        s.setAttribute('value',"Save");
+
+        input5.parentNode.appendChild(s);
+
+        if (n!='0'){
+            privacy_name[0].defaultSelected=false;
+            privacy_name[parseInt(n)].defaultSelected=true;
+        }
+        if (a!='0'){
+            privacy_age[0].defaultSelected=false;
+            privacy_age[parseInt(a)].defaultSelected=true;
+        }
+        if (l!='0'){
+            privacy_location[0].defaultSelected=false;
+            privacy_location[parseInt(l)].defaultSelected=true;
+
+        }
+        if (p!='0'){
+            privacy_phnumber[0].defaultSelected=false;
+            privacy_phnumber[parseInt(p)].defaultSelected=true;
+
+        }
+        if (e!='0'){
+            privacy_email[0].defaultSelected=false;
+            privacy_email[parseInt(e)].defaultSelected=true;
+
+        }
+
+
+        document.getElementById('privacy_name').style.visibility='visible';
+
+        document.getElementById('privacy_age').style.visibility='visible';
+
+        document.getElementById('privacy_location').style.visibility='visible';
+
+        document.getElementById('privacy_phnumber').style.visibility='visible';
+
+        document.getElementById('privacy_email').style.visibility='visible';
+
+
+
+    }
+</script>
+
+ <div class="row">
+  <div class="col-sm-2">
+      <!--#############Welcome Tag################-->
+
+  {% if request.user.is_authenticated %}
+          <p><b>Welcome</b> {{user}}</p>
+
+  </div>
+     <div class="col-sm-2"></div>
+     <div class="col-sm-2"></div>
+     <div class="col-sm-2"></div>
+     <div class="col-sm-1"></div>
+    <div class="col-sm-3 " >
+    <div class="panel panel-default">
+      <div class="panel-heading">
+
+      Profile &nbsp
+          <!--<input type="text" value="{{n_privacy}}">-->
+          {%ifequal user request.user%}
+          <input type="button" id="Edit" value="Edit" onclick="edit('{{n_privacy}}','{{a_privacy}}','{{l_privacy}}','{{p_privacy}}','{{e_privacy}}','{{name}}','{{age}}','{{location}}'
+          ,'{{phnumber}}','{{email}}'+'')">
+          {%endifequal%}
+      </div>
+      <div class="panel-body ">
+          <form method="POST" action="{% url 'save_details' %}">{%csrf_token%}
+              <b>Name:</b>
+              <label id="name">{{name}} </label>
+              <select id="privacy_name" name="privacy_name">
+
+               <option value="0">Private</option>
+               <option value="1">Friends</option>
+               <option value="2">F2F</option>
+               <option value="3">Public</option>
+               </select>
+              <br/>
+              <b>Age:
+              </b><label id="age">{{age}}  </label>
+              <select id="privacy_age" name="privacy_age">
+               <option value="0">Private</option>
+               <option value="1">Friends</option>
+               <option value="2">F2F</option>
+               <option value="3">Public</option>
+               </select>
+              <br/>
+              <b>Location:</b>
+              <label id="location" >{{location}} </label>
+              <select id="privacy_location" name="privacy_location">
+               <option value="0">Private</option>
+               <option value="1">Friends</option>
+               <option value="2">F2F</option>
+               <option value="3">Public</option>
+               </select>
+              <br/>
+              <b>Phone Number:</b>
+              <label id="phnumber"> {{phnumber}} </label>
+              <select id="privacy_phnumber" name="privacy_phnumber">
+               <option value="0">Private</option>
+               <option value="1">Friends</option>
+               <option value="2">F2F</option>
+               <option value="3">Public</option>
+               </select>
+              <br/>
+              <b>Email:</b>
+              <label id="email">{{email}}  </label>
+              <select id="privacy_email" name="privacy_email">
+               <option value="0">Private</option>
+               <option value="1">Friends</option>
+               <option value="2">F2F</option>
+               <option value="3">Public</option>
+               </select>
+              <br/>
+          </form>
+      </div>
+    </div>
+  </div>
+
+
+<!--####################################################################################################################################-->
+ <div class="row">
+  <div class="col-sm-2">
+
+  </div>
+  <div class="col-sm-2"></div>
+  <div class="col-sm-2"></div>
+   <div class="col-sm-2"></div>
+  <div class="col-sm-1"></div>
+  <div class="col-sm-3 " >
+    <div class="panel panel-default">
+      <div class="panel-heading">
+
+          Friends
+          {%ifequal user request.user%}
+
+          <button onclick="edit_friend('{{friend_privacy}}')" id="edit_friend">Edit</button>
+          {%endifequal%}
+      <form action ="" method = "POST">{%csrf_token%}
+          <select id="privacy_friend" name="privacy_friend" >
+               <option value="0">Private</option>
+               <option value="1">Friends</option>
+               <option value="2">F2F</option>
+               <option value="3">Public</option>
+          </select>
+      </form>
+      <form action="" method="POST">{%csrf_token%}
+
+      <p><input type="text" name="SearchBox">
+      <input type="submit" value="Find">
+      </p>
+      </form>
+
+       {%if find_friend%}
+       <p>
+          {%for frnd in find_friend%}
+
+          <form method="POST" action="{% url 'find_friend' %}">{%csrf_token%}
+              {{frnd}}
+              <input type="hidden" name="frnd_name" value="{{frnd}}">
+              <input type="submit" value="send Request">
+          </form>
+
+          {%endfor%}
+
+      </p>
+      {%endif%}
+      </form>
+      </div>
+      <div class="panel-body ">
+          <ol style="list-style-type:none">
+
+          {%if friends %}
+
+            {% for frnd in friends %}
+                {% ifequal frnd.friend_name request.user.username %}
+                <li><a href="/">{{frnd.friend_name }}</a></li>
+                {%else%}
+                <li><a href="/find_friend/?q={{frnd.friend_name}}">{{frnd.friend_name }}</a></li>
+                {%endifequal%}
+            {% endfor %}
+          {%endif %}
+        {%if reversed_friends%}
+            {% for frnd in reversed_friends %}
+              {% ifequal frnd.user_name request.user.username %}
+                <li><a href="/">{{frnd.user_name}}</a></li>
+                {%else%}
+                <li><a href="/find_friend/?q={{frnd.user_name}}">{{frnd.user_name }}</a></li>
+              {%endifequal%}
+            {% endfor %}
+        {%endif %}
+
+
+
+      </ol>
+
+      </div>
+    </div>  
+  </div>
+  <!--####################################################################################################################################-->
+</div>
+<div class="row">
+<div class="col-sm-2">
+    <p>
+		<form action="{% url 'file_save' %}" method='post'>{% csrf_token %}
+
+				{{txt}}
+
+		<br>
+
+		<input type="submit" id="submit" value="Save" style="visibility:hidden;">
+		</form>
+		</p>
+</div>
+  <div class="col-sm-2">
+
+</div>
+  <div class="col-sm-2"></div>
+  <div class="col-sm-2"></div>
+  <div class="col-sm-1"></div>
+  <div class="col-sm-3 " >
+   <div class ="panel panel-group">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <form action="{% url 'upload' %}" method="post" enctype="multipart/form-data">
+			{% csrf_token %}
+
+          File
+
+			{{form}}
+			<input type="submit" value="Upload" />
+		</form>
+      </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+
+            My Docs
+            {%ifequal user request.user%}
+
+            <button onclick="edit_doc({{num_docs}},'{{docs_privacy}}')" id="edit_doc">Edit</button>
+            {%endifequal%}
+        </div>
+        <form action ="update_privacy/" method = "POST">{%csrf_token%}
+
+          <div class="panel-body" id="doc_panel">
+
+
+           {% if mydocs %}
+
+                        <ul style="list-style-type:none">
+                        {% for documents in mydocs %}
+
+                                <li>{{documents.docfile|filename}}
+
+                                <input type="button" id="lesen" value="Read" onclick="readTextFile('{{ documents.docfile.url }}','{{documents.docfile.name }}','{{documents.write}}')" />
+                                    <select class="privacy_doc" name="{{documents.docfile.url}}" value="submit" id="privacy_doc">
+                                        <option value="0">Private</option>
+                                        <option value="1">Friends</option>
+                                        <option value="2">F2F</option>
+                                        <option value="3">Public</option>
+                                    </select>
+                                </li>
+
+
+                        {% endfor %}
+                        </ul>
+        </form>
+
+                {% else %}
+                        <p>No documents.</p>
+                {% endif %}
+           </div>
+      </div>
+       <div class="panel panel-default">
+        <div class="panel-heading">
+            Shared with Me
+        </div>
+          <div class="panel-body ">
+           {% if shared_docs %}
+
+                        <ul style="list-style-type:none">
+                        {% for documents in shared_docs %}
+
+                                <li><b>{{documents.grantor}}</b>:{{documents.docfile|filename}}
+                                <input type="button" id="lesen" value="Read" onclick="readTextFile('{{ documents.docfile.url }}','{{documents.docfile.name }}','{{documents.write}}')" /></li>
+
+                        {% endfor %}
+                        </ul>
+                {% else %}
+                        <p>No documents.</p>
+                {% endif %}
+          </div>
+
+     </div>
+    </div>  
+  </div>
+  
+</div>
+{% endif %}
+{%endblock%}
+{%block content%}
+
+{%endblock%}

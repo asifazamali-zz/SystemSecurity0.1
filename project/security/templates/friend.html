@@ -1,0 +1,17 @@
+{%extends 'base.html'%}
+{%load staticfiles%}
+{%block fileuploads%}
+        <div class="row" align='right'>
+                <div class="col-md-12">
+                <b>Friends</b>
+                {%if friends %}
+                <ol>
+                        {% for frnd in friends %}
+                             <li>{{frnd.friend_name }}</li>                 			
+                        {% endfor %}
+                        </ol> 
+                {%endif %}
+                </div>
+        </div>
+                
+{%endblock%}
