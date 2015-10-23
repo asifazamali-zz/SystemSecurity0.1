@@ -1,7 +1,7 @@
 
 from django.db import models
 from djangotoolbox.fields import ListField
-#from RWFM import MakeRWLabel,MakeForkLabel
+from ifc.rwlabel import RWFM,LabelManager
 import os
 from django.contrib.auth.models import User
 #from django.contrib.auth import models
@@ -42,6 +42,39 @@ class Document_mongo(models.Model):
         return (self.is_public or
                 user_id == self.user_id or
                 user_id in assignees)
+    def is_editable(self, user_id=None,session=None):
+        """Indicates the user can edit this document"""
+        # access control.
+
+        print "is_editable"
+        #print session["rwlabel"]
+        # self is document object
+        # user_id is user id of requesting user..
+        # also check if user requesting is a writer of document
+        # get label for document
+        print "document_id"
+        lm = LabelManager()
+        rw = RWFM()
+        print self.pk
+        doc_label = lm.getLabel(self.pk)
+        print "edit"
+        print doc_label
+        temp = rw.checkWrite(session["rwlabel"],doc_label)
+        if temp:
+            testwriter = True
+        else:
+            testwriter = False
+
+        print testwriter
+        if ((user_id == self.user_id) and testwriter):# it is the user who created the document..
+            return True
+        assignees=[]
+        ##for user in self.assignee:
+        for permission in self.assignee:
+            if (permission.get("id") == user_id and
+                    permission.get("can_write") == "True" and testwriter):
+                return True
+        return False
 
 
 class SignUp(models.Model):

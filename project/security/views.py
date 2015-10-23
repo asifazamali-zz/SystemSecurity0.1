@@ -7,7 +7,9 @@ from django.core.files import File
 from .models import Document,Request_send,Shared,Friends,Details,PrivacyDetails,PrivacyFriend,PrivacyDocs,Document_mongo
 from .forms import SignUpForm,ContactForm,DocumentForm,RequestSendForm,FriendForm,SaveForm,SaveDetailsForm,PrivacyDetailsForm,PrivacyFriendForm,PrivacyDocumentForm
 from django.db import connection
+from tastypie.exceptions import ImmediateHttpResponse
 from project.settings import MEDIA_ROOT
+#from rwlabel.views import getLabel
 from django.db.models import Q
 #from registration.signals import user_registered
 from django.contrib.auth.signals import user_logged_in
@@ -585,10 +587,11 @@ def doc_rwlabel(self,file_path,id):
             user_id= self.user.pk,
             docfile=file_path,
             #date_created= datetime.now(),
+            #can_edit=True,
             entities= "entities",
             is_public=False,
         )
-    temp = {"_id":str(self.object_id),"is_public":False}
+    temp = {"_id":self.object_id,"is_public":True}
     result = MakeRWLabel(temp,self.session)
     print 'label created'+str(result['bool'])
     print id
@@ -597,19 +600,6 @@ def doc_rwlabel(self,file_path,id):
     sql.save()
     return
 
-#########################################################################################################################
-def check_ifcread(request=None,**kwargs):
-    print kwargs['id']
-    document = Document_mongo.objects.get(id=kwargs['id'])
-    assignees=[]
-    for user in document.assignee:
-            assignees.append(user["id"])
-    print assignees
-    if request is not None and not ((document.is_public) or (request.user.id == str(document.user_id)) or (request.user.id in assignees)):
-       print 'abc'
-        #raise ImmediateHttpResponse(response=http.HttpUnauthorized())
-
-    return document
 ########################################################################################################################
 def check_read(request):
     file_url = request.POST.get('doc_file_url','No_url')
@@ -619,6 +609,46 @@ def check_read(request):
     print 'check_read'+str(file_writable)
     print 'file_object_id'+str(file_object_id)
     check_ifcread(request,id=file_object_id)
+    writable='False'
+    if(check_ifcwrite(request,id=file_object_id)):
+        writable='True'
+    print "writable"+str(writable)
     #kwargs={'url':url,'flag':'true','writable':'true'}
     #print file
-    return home(request,file_url=file_url,file_name=file_name,flag='true',writable='True')
+    return home(request,file_url=file_url,file_name=file_name,flag='true',writable=writable)
+
+############################################ check ifc_read #############################################################
+def check_ifcread(request=None,**kwargs):
+    print kwargs['id']
+    document = Document_mongo.objects.get(id=kwargs['id'])
+    assignees=[]
+    sub_label = request.session["rwlabel"] # current label of user requesting..
+    lm = LabelManager()
+    rw = RWFM()
+    doc_label = lm.getLabel(str(kwargs["id"])) # label of the document requested...
+
+    print 'doc_label'+str(doc_label)
+    check = rw.checkRead(sub_label,doc_label)
+    testread = check["bool"]
+    for user in document.assignee:
+            assignees.append(user["id"])
+    #print assignees
+    if request is not None and not ((document.is_public) or (request.user.id == str(document.user_id)) or (request.user.id in assignees)) and not testread:
+       #print 'abc'
+        raise ImmediateHttpResponse(response=http.HttpUnauthorized())
+    print sub_label["readers"]
+    print doc_label["readers"]
+    newsublabel = check["sublabel"]
+    request.session["rwlabel"] = newsublabel
+
+    # request.session["rwlabel"]["readers"] = list(set(sub_label["readers"]).intersection(set(doc_label["readers"])))
+    # print request.session["rwlabel"]["readers"]
+    # request.session["rwlabel"]["writers"] = list(set(sub_label["writers"]).union(set(doc_label["writers"])))
+    print request.session["rwlabel"]
+    return document
+#################################################check ifc_write ##################################################
+def check_ifcwrite(request=None,**kwargs):
+    document = Document_mongo.objects.get(id=kwargs['id'])
+    return (document.is_editable(user_id=request.user.pk,session=request.session))
+
+

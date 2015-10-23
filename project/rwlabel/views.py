@@ -73,7 +73,7 @@ def updatedoc(request):
 		print "upgrade"
 		if rw.checkUpgrade(sublabel,temp2,temp3):
 			print temp3
-			if lm.updatelabel(doc_id,temp3):
+			if lm.updateLabel(doc_id,temp3):
 				request.session["rwlabel"] = sublabel
 				return HttpResponseRedirect("/documents/"+doc_id+"/")
 			else:
@@ -87,7 +87,7 @@ def updatedoc(request):
 	elif len(temp2["readers"]) < len(temp3["readers"]):
 		print "downgrade"
 		if rw.checkDowngrade(sublabel,temp2,temp3):
-			if lm.updatelabel(doc_id,temp3):				
+			if lm.updateLabel(doc_id,temp3):
 				request.session["rwlabel"] = sublabel				
 				return HttpResponseRedirect("/documents/"+doc_id+"/")
 			else:
@@ -100,7 +100,7 @@ def updatedoc(request):
 			#return HttpResponseRedirect("/rwlabel/napublic/")
 	
 	else:
-		if lm.updatelabel(doc_id,temp3):
+		if lm.updateLabel(doc_id,temp3):
 			request.session["rwlabel"] = sublabel
 			return HttpResponseRedirect("/documents/"+doc_id+"/")
 		else:
@@ -188,7 +188,8 @@ def MakeRWLabel(document,session):
 	r2  = session["rwlabel"]["readers"]
 	w = session["rwlabel"]["writers"]
 	# just after creation label
-	temp2  = rw.createObjLabel(sublabel,document["_id"])
+	print document['_id'].pk
+	temp2  = rw.createObjLabel(sublabel,document["_id"].pk)
 	# temp2 = { "doc_id" : document["_id"],"owner" : session["rwlabel"]["owner"],"readers": r2,"writers": w }
 	print temp2
 	if document["is_public"]:
@@ -198,10 +199,11 @@ def MakeRWLabel(document,session):
 		for x in readers:
 			r3.append(x.id)
 		# label is made to public
-		temp3 = {"doc_id" : document["_id"],"owner" : session["rwlabel"]["owner"],"readers": r3,"writers": w}
+
+		temp3 = {"doc_id" : document["_id"].pk,"owner" : session["rwlabel"]["owner"],"readers": r3,"writers": w}
 		if rw.checkDowngrade(sublabel,temp2,temp3):
 			# rwlabel.save(temp3)
-			lm.updatelabel(document["_id"],temp3)
+			lm.updateLabel(document["_id"].pk,temp3)
 			# connection.disconnect()
 			return {"bool": True, "type":"public"}
 		else:
