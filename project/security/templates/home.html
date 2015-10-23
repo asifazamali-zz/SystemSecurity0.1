@@ -35,7 +35,15 @@
     }
 </style>
 <script>
-        function readTextFile(file,file_path,can_write)
+function onLoadFunction(file,filepath,flag,can_write){
+    if(file) {
+        if (flag == 'true') {
+            readTextFile(file,filepath, can_write)
+        }
+    }
+    return
+}
+function readTextFile(file,file_path,can_write)
 {
 	var rawFile = new XMLHttpRequest();
 	rawFile.open("GET", file, false);
@@ -401,6 +409,7 @@ rawFile.send(null);
             <button onclick="edit_doc({{num_docs}},'{{docs_privacy}}')" id="edit_doc">Edit</button>
             {%endifequal%}
         </div>
+        <form method="POST" id="check_read" action = "check_read/">{% csrf_token %}</form>
         <form action ="update_privacy/" method = "POST">{%csrf_token%}
 
           <div class="panel-body" id="doc_panel">
@@ -412,11 +421,16 @@ rawFile.send(null);
                         {% for documents in mydocs %}
 
                                 <li>{{documents.docfile|filename}}
-                                <form method="POST" action = "check_read/">{% csrf_token %}
-                                <input type="hidden" name="doc_file" value="{{documents.docfile.url}}">
-                                <input name='read' type="submit" id="lesen" value="Read"/>
+
+                                <input form="check_read" type="hidden" name="doc_file_url" value="{{documents.docfile.url}}">
+                                <input form="check_read" type="hidden" name="doc_file_name" value="{{documents.docfile.name}}">
+                                <input form="check_read" type="hidden" name="doc_file_write" value="{{documents.write}}">
+                                <input form="check_read" type="hidden" name="doc_file_id" value="{{documents.id}}">
+
+{#                                <input type="text" value="{{documents.id }}"/>#}
+                                <input form="check_read" name='read' type="submit" id="lesen" value="Read"/>
                                 {#        onclick="readTextFile('{{ documents.docfile.url }}','{{documents.docfile.name }}','{{documents.write}}')" />#}
-                                </form>
+
                                     <select class="privacy_doc" name="{{documents.docfile.url}}" value="submit" id="privacy_doc">
                                         <option value="0">Private</option>
                                         <option value="1">Friends</option>
@@ -446,7 +460,15 @@ rawFile.send(null);
                         {% for documents in shared_docs %}
 
                                 <li><b>{{documents.grantor}}</b>:{{documents.docfile|filename}}
-                                <input type="button" id="lesen" value="Read" onclick="readTextFile('{{ documents.docfile.url }}','{{documents.docfile.name }}','{{documents.write}}')" /></li>
+                                <input form="check_read" type="hidden" name="doc_file_url" value="{{documents.docfile.url}}">
+                                <input form="check_read" type="hidden" name="doc_file_name" value="{{documents.docfile.name}}">
+                                <input form="check_read" type="hidden" name="doc_file_write" value="{{documents.write}}">
+                                <input form="check_read" type="hidden" name="doc_file_id" value="{{documents.id}}">
+
+{#                                <input type="text" value="{{ documents.object_id }}"/>#}
+                                <input form="check_read" name='read' type="submit" id="lesen" value="Read"/>
+{#                                <input type="button" id="lesen" value="Read" onclick="readTextFile('{{ documents.docfile.url }}','{{documents.docfile.name }}','{{documents.write}}')" />#}
+                                </li>
 
                         {% endfor %}
                         </ul>

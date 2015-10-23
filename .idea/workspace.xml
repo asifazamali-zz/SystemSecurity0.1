@@ -26,36 +26,59 @@
         <entry file="file://$PROJECT_DIR$/project/project/urls.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="19" column="71" selection-start-line="19" selection-start-column="71" selection-end-line="19" selection-end-column="71" />
+              <caret line="19" column="8" selection-start-line="19" selection-start-column="8" selection-end-line="19" selection-end-column="8" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="base.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/project/security/templates/base.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-6.25">
+              <caret line="10" column="56" selection-start-line="10" selection-start-column="56" selection-end-line="10" selection-end-column="56" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/project/security/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-14.444445">
-              <caret line="593" column="10" selection-start-line="593" selection-start-column="10" selection-end-line="593" selection-end-column="10" />
+            <state vertical-scroll-proportion="0.4362069">
+              <caret line="607" column="101" selection-start-line="607" selection-start-column="101" selection-end-line="607" selection-end-column="101" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
-                <marker date="1445538371443" expanded="true" signature="14923:14993" placeholder="Select * fro..request_send..." />
-                <marker date="1445538371443" expanded="true" signature="16919:16970" placeholder="Select * fro..security_friends..." />
-                <marker date="1445538371443" expanded="true" signature="17060:17104" placeholder="Select * fro..documents..." />
-                <marker date="1445538371443" expanded="true" signature="18827:18872" placeholder="Select * fro..documents..." />
-                <marker date="1445538371443" expanded="true" signature="21836:21971" placeholder="update profi..." />
+                <marker date="1445564650811" expanded="true" signature="15118:15188" placeholder="Select * fro..request_send..." />
+                <marker date="1445564650811" expanded="true" signature="17592:17643" placeholder="Select * fro..security_friends..." />
+                <marker date="1445564650811" expanded="true" signature="17733:17777" placeholder="Select * fro..documents..." />
+                <marker date="1445564650811" expanded="true" signature="19496:19541" placeholder="Select * fro..documents..." />
+                <marker date="1445564650811" expanded="true" signature="22505:22640" placeholder="update profi..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="home.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="shared.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/project/security/templates/shared.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-4.375">
+              <caret line="13" column="96" selection-start-line="13" selection-start-column="96" selection-end-line="13" selection-end-column="96" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="home.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/project/security/templates/home.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.43345323">
-              <caret line="415" column="24" selection-start-line="415" selection-start-column="24" selection-end-line="415" selection-end-column="24" />
+            <state vertical-scroll-proportion="-10.291667">
+              <caret line="467" column="88" selection-start-line="467" selection-start-column="34" selection-end-line="467" selection-end-column="88" />
               <folding>
-                <element signature="e#14154#14182#0#HTML" expanded="true" />
+                <element signature="e#10530#10558#0#HTML" expanded="true" />
+                <element signature="e#11743#11769#0#HTML" expanded="true" />
+                <element signature="e#12823#12851#0#HTML" expanded="true" />
+                <element signature="e#14777#14805#0#HTML" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -64,9 +87,23 @@
       <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/project/security/models.py">
           <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-4.5833335">
+              <caret line="38" column="37" selection-start-line="38" selection-start-column="37" selection-end-line="38" selection-end-column="37" />
+              <folding>
+                <element signature="e#1#29#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="filename.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/project/security/templatetags/filename.py">
+          <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="23" column="70" selection-start-line="23" selection-start-column="70" selection-end-line="23" selection-end-column="70" />
-              <folding />
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#9#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -77,9 +114,11 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/project/static_in_pro/our_static/js/user_defined.js" />
-        <option value="$PROJECT_DIR$/project/security/models.py" />
-        <option value="$PROJECT_DIR$/project/security/templates/home.html" />
         <option value="$PROJECT_DIR$/project/project/urls.py" />
+        <option value="$PROJECT_DIR$/project/security/templates/base.html" />
+        <option value="$PROJECT_DIR$/project/security/templates/shared.html" />
+        <option value="$PROJECT_DIR$/project/security/templates/home.html" />
+        <option value="$PROJECT_DIR$/project/security/models.py" />
         <option value="$PROJECT_DIR$/project/security/views.py" />
       </list>
     </option>
@@ -238,6 +277,28 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="security" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="reproject" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="reproject" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="project" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="security" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="templatetags" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -496,8 +557,8 @@
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25378788" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25378788" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32972136" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -562,43 +623,74 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/project/security/models.py">
+    <entry file="file://$PROJECT_DIR$/project/security/templatetags/filename.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="23" column="70" selection-start-line="23" selection-start-column="70" selection-end-line="23" selection-end-column="70" />
-          <folding />
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/project/project/urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="19" column="71" selection-start-line="19" selection-start-column="71" selection-end-line="19" selection-end-column="71" />
+          <caret line="19" column="8" selection-start-line="19" selection-start-column="8" selection-end-line="19" selection-end-column="8" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/project/security/views.py">
+    <entry file="file://$PROJECT_DIR$/project/security/templates/base.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-14.444445">
-          <caret line="593" column="10" selection-start-line="593" selection-start-column="10" selection-end-line="593" selection-end-column="10" />
+        <state vertical-scroll-proportion="-6.25">
+          <caret line="10" column="56" selection-start-line="10" selection-start-column="56" selection-end-line="10" selection-end-column="56" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/project/security/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.5833335">
+          <caret line="38" column="37" selection-start-line="38" selection-start-column="37" selection-end-line="38" selection-end-column="37" />
           <folding>
-            <element signature="e#0#35#0" expanded="true" />
-            <marker date="1445538371443" expanded="true" signature="14923:14993" placeholder="Select * fro..request_send..." />
-            <marker date="1445538371443" expanded="true" signature="16919:16970" placeholder="Select * fro..security_friends..." />
-            <marker date="1445538371443" expanded="true" signature="17060:17104" placeholder="Select * fro..documents..." />
-            <marker date="1445538371443" expanded="true" signature="18827:18872" placeholder="Select * fro..documents..." />
-            <marker date="1445538371443" expanded="true" signature="21836:21971" placeholder="update profi..." />
+            <element signature="e#1#29#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/project/security/templates/home.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.43345323">
-          <caret line="415" column="24" selection-start-line="415" selection-start-column="24" selection-end-line="415" selection-end-column="24" />
+        <state vertical-scroll-proportion="-10.291667">
+          <caret line="467" column="88" selection-start-line="467" selection-start-column="34" selection-end-line="467" selection-end-column="88" />
           <folding>
-            <element signature="e#14154#14182#0#HTML" expanded="true" />
+            <element signature="e#10530#10558#0#HTML" expanded="true" />
+            <element signature="e#11743#11769#0#HTML" expanded="true" />
+            <element signature="e#12823#12851#0#HTML" expanded="true" />
+            <element signature="e#14777#14805#0#HTML" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/project/security/templates/shared.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.375">
+          <caret line="13" column="96" selection-start-line="13" selection-start-column="96" selection-end-line="13" selection-end-column="96" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/project/security/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.4362069">
+          <caret line="607" column="101" selection-start-line="607" selection-start-column="101" selection-end-line="607" selection-end-column="101" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+            <marker date="1445564650811" expanded="true" signature="15118:15188" placeholder="Select * fro..request_send..." />
+            <marker date="1445564650811" expanded="true" signature="17592:17643" placeholder="Select * fro..security_friends..." />
+            <marker date="1445564650811" expanded="true" signature="17733:17777" placeholder="Select * fro..documents..." />
+            <marker date="1445564650811" expanded="true" signature="19496:19541" placeholder="Select * fro..documents..." />
+            <marker date="1445564650811" expanded="true" signature="22505:22640" placeholder="update profi..." />
           </folding>
         </state>
       </provider>

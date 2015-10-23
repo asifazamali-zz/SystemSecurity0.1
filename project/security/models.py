@@ -1,6 +1,6 @@
 
 from django.db import models
-
+from djangotoolbox.fields import ListField
 #from RWFM import MakeRWLabel,MakeForkLabel
 import os
 from django.contrib.auth.models import User
@@ -25,8 +25,24 @@ class Document_mongo(models.Model):
     data_created=models.DateTimeField(auto_now_add=True, blank=True)
     entities=models.CharField(max_length=200)
     is_public = models.BooleanField(default=False)
+    assignee = ListField()
     class Meta:
         app_label='mongodb'
+    def assignees(self):
+        """Returns assigned users or empty list"""
+        return self.get('assignee') or []
+
+    def is_visible(self, user_id=None):
+        """Indicates whether the document is visible to user"""
+        # assignees=[]
+        # print self.assignees
+        # for user in self.assignees:
+        #     assignees.append(user["id"])
+        assignees = [user["id"] for user in self.assignees]
+        return (self.is_public or
+                user_id == self.user_id or
+                user_id in assignees)
+
 
 class SignUp(models.Model):
     email = models.EmailField()
@@ -41,6 +57,7 @@ class Document(models.Model):
     read = models.BooleanField(default=1)
     write = models.BooleanField(default=0)
     owner = models.BooleanField(default=0)
+    object_id = models.CharField(max_length=200)
     #privacy = models.CharField(default='0',max_length='2')
     class Meta:
         db_table="documents"

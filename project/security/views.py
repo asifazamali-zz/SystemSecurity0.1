@@ -16,7 +16,7 @@ from ifc.rwlabel import RWFM,LabelManager
 from rwlabel.views import MakeRWLabel,MakeForkLabel
 from datetime import datetime
 # Create your views here.
-def home(request):
+def home(request,**kwargs):
     # if request.user.is_authenticated:
     #     print "in home:user_authenticated"
     #     print request.get_full_path
@@ -112,15 +112,17 @@ def home(request):
     test = PrivacyFriend.objects.filter(user_name=request.user.username)
     for t in test:
         print t.privacy
-    return render_to_response(
-            'home.html',
-            {'request':request,'friends': q,'reversed_friends':r,'mydocs': mydocs,'shared_docs':shared_docs,'find_friend':find_friend,'txt':form1,'form':form,
+    context={'request':request,'friends': q,'reversed_friends':r,'mydocs': mydocs,'shared_docs':shared_docs,'find_friend':find_friend,'txt':form1,'form':form,
              'friend_list':friend_list,'name':name,'age':age,
              'location':location,'phnumber':phnumber,'email':email,'shared_list':shared_list,'num_docs':i,
              'n_privacy':n_privacy,'a_privacy':a_privacy,'l_privacy':l_privacy,'p_privacy':p_privacy,'e_privacy':e_privacy,
-             'docs_privacy':docs_privacy,
-             # 'friend_privacy':test[0].privacy
-             },
+             'docs_privacy':docs_privacy,'file_url':'','file_name':'','flag':'','can_write':''}
+    if(kwargs):
+        context.update({'file_url':kwargs['file_url'],'file_name':kwargs['file_name'],'flag':kwargs['flag'],'can_write':kwargs['writable']})
+
+    return render_to_response(
+            'home.html',
+            context,
             context_instance=RequestContext(request)
         )
 def login_rwlabel(sender,user,request,**kwargs):
@@ -183,10 +185,10 @@ def list1(request):
             if(sql):
                 print sql.docfile
                 file =sql.docfile
-            sql=PrivacyDocs(user_name=request.user.username,docfile=file,privacy=0)
-            sql.save()
+            priv_sql=PrivacyDocs(user_name=request.user.username,docfile=file,privacy=0)
+            priv_sql.save()
             # Object Label Creation()
-            doc_rwlabel(request,sql.docfile)
+            doc_rwlabel(request,sql.docfile,sql.id)
 
             return HttpResponseRedirect('/')
     else:
@@ -383,15 +385,26 @@ def shared(request):
         form_notification= RequestSendForm(request.POST or None)
         if form.is_valid():
             instance=form.save(commit=False)
+            object_id = request.POST.get('object_id','')
             print "in form_valid_docform"
             instance.user_name= request.POST.get("friend_select","")
             instance.docfile = request.POST.get("docfile","")
             instance.friend_name = request.POST.get("frnd_name","")
             instance.write = ((request.POST.get("write_select","")) in ("True","1"))
+            instance.object_id=object_id
             #print "instance.write: "+ instance.write
             instance.grantor = request.user.username
+
             #print 'instance.frnd_req '+instance.friend_name
             instance.save()
+            #print "shared object_id"+str(object_id)
+            object = Document_mongo.objects.get(id=object_id)
+            print request.user.username
+            print request.user.pk
+            print instance.write
+
+            object.assignee.append({'user':str(request.user.username),'id':str(request.user.pk),'can_write':str(instance.write)})
+            object.save()
         if form_notification.is_valid():
             print "form valid: notification"
             instance = form_notification.save(commit=False)
@@ -410,7 +423,7 @@ def shared(request):
     sql = "Select * from documents where user_name='%s'"%(request.user.username)
     #print sql    
     shared = Document.objects.raw(sql)
-    
+
         # Render list page with the documents and the form
     return render_to_response(
             'shared.html',
@@ -566,7 +579,7 @@ def registration_complete(request):
 
 ######################################################Registration Redux ###################################################
 #####################################################Object Label Creation########################################
-def doc_rwlabel(self,file_path):
+def doc_rwlabel(self,file_path,id):
     self.object_id = Document_mongo.objects.create(
             title= "title",
             user_id= self.user.pk,
@@ -578,17 +591,34 @@ def doc_rwlabel(self,file_path):
     temp = {"_id":str(self.object_id),"is_public":False}
     result = MakeRWLabel(temp,self.session)
     print 'label created'+str(result['bool'])
+    print id
+    sql=Document.objects.get(id=id)
+    sql.object_id=self.object_id
+    sql.save()
     return
+
 #########################################################################################################################
-def check_ifcread(self,request=None,**kwargs):
-    document = Document_mongo.objects.find_one(_id=ObjectId())
-    if request is not None and not document.is_visible(user_id=request.user.id):
-        print 'abc'
+def check_ifcread(request=None,**kwargs):
+    print kwargs['id']
+    document = Document_mongo.objects.get(id=kwargs['id'])
+    assignees=[]
+    for user in document.assignee:
+            assignees.append(user["id"])
+    print assignees
+    if request is not None and not ((document.is_public) or (request.user.id == str(document.user_id)) or (request.user.id in assignees)):
+       print 'abc'
         #raise ImmediateHttpResponse(response=http.HttpUnauthorized())
 
     return document
 ########################################################################################################################
 def check_read(request):
-    url = request.POST.get('doc_file','No_url')
-    print url
-    return
+    file_url = request.POST.get('doc_file_url','No_url')
+    file_name = request.POST.get('doc_file_name','No_url')
+    file_writable = request.POST.get('doc_file_write','')
+    file_object_id = request.POST.get('doc_file_id','')
+    print 'check_read'+str(file_writable)
+    print 'file_object_id'+str(file_object_id)
+    check_ifcread(request,id=file_object_id)
+    #kwargs={'url':url,'flag':'true','writable':'true'}
+    #print file
+    return home(request,file_url=file_url,file_name=file_name,flag='true',writable='True')

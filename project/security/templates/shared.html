@@ -11,6 +11,7 @@
                         {% for shr in shared %}
                                 <form action="" method="POST">{% csrf_token %}
                                 <li>{{shr.docfile|filename }}
+                                <input type="hidden" name="object_id" value="{{  shr.object_id}}"/>
                                 <select name="friend_select" required>
                                 <option value="">Select friends</option>
                                 {% if friends %}
