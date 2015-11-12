@@ -17,94 +17,100 @@ def naprivate(request):
 	html = "<html><head><title>403.1 Execute access forbidden</title><body><H2>Error 403.1 Execute access forbidden</H2><H3>You are not allowed to upgrade readers.</H3></body></html>"
 
 	return HttpResponse(html)
-def updatedoc(request):
-	lm = LabelManager()
-	rw = RWFM()
-	print "updatedoc"
-	is_public = request.POST.get("is_public")
-	doc_res =  request.POST.get("doc_res")
-	doc_id = (doc_res.split("/api/documents/")[1]).split("/")[0]
-	doc_id = str(doc_id)
-	temp2 = lm.getLabel(doc_id)
-	print  "temp2"
-	print temp2
+def updatedoc(request,document_id,reader,can_rw):
+    lm = LabelManager()
+    rw = RWFM()
+    print "updatedoc"
+	# is_public = request.POST.get("is_public")
+	# doc_res =  request.POST.get("doc_res")
+	# doc_id = (doc_res.split("/api/documents/")[1]).split("/")[0]
+    doc_id = str(document_id)
+    temp2 = lm.getLabel(doc_id)
+    print  "temp2"
+    print temp2
 	
-	assignees = json.loads(request.POST.get("assignees"))
-	print assignees	
+	#assignees = json.loads(request.POST.get("assignees"))
+	#print assignees
 	
-	sublabel = request.session["rwlabel"]	
-	temp3 = {}
-	r3 = []
-	w3 = temp2["writers"]
-	print is_public
-	if is_public=="true":
-		print  "public"
-		readers = User.objects.all()
-		for x in readers:
-			r3.append(x.id)
-		for x in assignees:
-			if x["permission"]=="can_edit":
-				w3.append(x["id"])
-		temp3 = {"owner":temp2["owner"],"readers":r3,"writers":w3,"doc_id":doc_id} 
-	else:
-		print "private"
-		for x in assignees:
-			if x["permission"]=="can_view":
-				r3.append(x["id"])
-			if x["permission"]=="can_edit":
-				r3.append(x["id"])
-				w3.append(x["id"])
-		
-		r = []
-		readers = User.objects.all()
-		for x in readers:
-			r.append(x.id)
-		if temp2["readers"] == r:
-			temp3 = {"owner":temp2["owner"],"readers":list((set(r3).union(set(temp2["owner"])))),"writers":w3,"doc_id":doc_id}
-		else:
-			temp3 = {"owner":temp2["owner"],"readers":list((set(r3).union(set(temp2["readers"])))),"writers":w3,"doc_id":doc_id}
+    sublabel = request.session["rwlabel"]
+    temp3 = {}
+    r3 = []
+    w3 = temp2["writers"]
+    if (str(can_rw)=="can_view"):
+            r3.append(reader)
+    if (str(can_rw)=="can_edit"):
+            r3.append(reader)
+            w3.append(reader)
 
-		
-
-	print "temp3"
-	print temp3	
-	print temp2["readers"]
-	if len(temp2["readers"]) > len(temp3["readers"]):		
-		print "upgrade"
-		if rw.checkUpgrade(sublabel,temp2,temp3):
-			print temp3
-			if lm.updateLabel(doc_id,temp3):
-				request.session["rwlabel"] = sublabel
-				return HttpResponseRedirect("/documents/"+doc_id+"/")
-			else:
-				print "error" 
-		
+	# # print is_public
+	# # if is_public=="true":
+	# 	print  "public"
+	# 	readers = User.objects.all()
+	# 	for x in readers:
+	# 		r3.append(x.id)
+	# 	for x in assignees:
+	# 		if x["permission"]=="can_edit":
+	# 			w3.append(x["id"])
+	# 	temp3 = {"owner":temp2["owner"],"readers":r3,"writers":w3,"doc_id":doc_id}
+	# else:
+	# print "private"
+	# for x in assignees:
+	# 	if x["permission"]=="can_view":
+	# 		r3.append(x["id"])
+	# 	if x["permission"]=="can_edit":
+	# 		r3.append(x["id"])
+	# 		w3.append(x["id"])
+    r = []
+    readers = User.objects.all()
+    for x in readers:
+        r.append(x.id)
+    if temp2["readers"] == r:
+        temp3 = {"owner":temp2["owner"],"readers":list((set(r3).union(set(temp2["owner"])))),"writers":w3,"doc_id":doc_id}
+    else:
+        temp3 = {"owner":temp2["owner"],"readers":list((set(r3).union(set(temp2["readers"])))),"writers":w3,"doc_id":doc_id}
 
 
-		else:
-			# cant upgrade
-			return HttpResponseRedirect("/rwlabel/naprivate/")
-	elif len(temp2["readers"]) < len(temp3["readers"]):
-		print "downgrade"
-		if rw.checkDowngrade(sublabel,temp2,temp3):
-			if lm.updateLabel(doc_id,temp3):
-				request.session["rwlabel"] = sublabel				
-				return HttpResponseRedirect("/documents/"+doc_id+"/")
-			else:
-				print "error"
+
+    print "temp3"
+    print temp3
+    print temp2["readers"]
+    if len(temp2["readers"]) > len(temp3["readers"]):
+        print "upgrade"
+        if rw.checkUpgrade(sublabel,temp2,temp3):
+            print temp3
+            if lm.updateLabel(doc_id,temp3):
+                request.session["rwlabel"] = sublabel
+                # return HttpResponseRedirect("/")
+            else:
+                print "error"
 
 
-		else:
-			# cant downgrade
-			raise PermissionDenied
-			#return HttpResponseRedirect("/rwlabel/napublic/")
-	
-	else:
-		if lm.updateLabel(doc_id,temp3):
-			request.session["rwlabel"] = sublabel
-			return HttpResponseRedirect("/documents/"+doc_id+"/")
-		else:
-			print "error"
+
+        else:
+            print "cant upgrade"
+            return HttpResponseRedirect("/")
+    elif len(temp2["readers"]) < len(temp3["readers"]):
+        print "downgrade"
+        if rw.checkDowngrade(sublabel,temp2,temp3):
+            if lm.updateLabel(doc_id,temp3):
+                request.session["rwlabel"] = sublabel
+                # return HttpResponseRedirect("/")
+            else:
+                print "error"
+
+
+        else:
+            print 'cant downgrade'
+            # return HttpResponseRedirect("/")
+        #return HttpResponseRedirect("/rwlabel/napublic/")
+
+    else:
+        if lm.updateLabel(doc_id,temp3):
+            print ("temp2['readers']==temp3[readers]")
+            request.session["rwlabel"] = sublabel
+            # return HttpResponseRedirect("/")
+        else:
+            print "error"
 
 
 def index(request):

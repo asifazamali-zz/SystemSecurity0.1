@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.http import HttpResponseRedirect
+from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.core.files import File
 from .models import Document,Request_send,Shared,Friends,Details,PrivacyDetails,PrivacyFriend,PrivacyDocs,Document_mongo
@@ -15,10 +16,10 @@ from django.db.models import Q
 from django.contrib.auth.signals import user_logged_in
 #Label Creation
 from ifc.rwlabel import RWFM,LabelManager
-from rwlabel.views import MakeRWLabel,MakeForkLabel
+from rwlabel.views import MakeRWLabel,MakeForkLabel,updatedoc
 from datetime import datetime
 # Create your views here.
-def home(request,**kwargs):
+def home(request):
     # if request.user.is_authenticated:
     #     print "in home:user_authenticated"
     #     print request.get_full_path
@@ -93,7 +94,13 @@ def home(request,**kwargs):
     #docs_privacy=array('i',docs)
         #####################################################docs Privacy###########################################################
     #print docs_privacy
-    shared_docs = Document.objects.filter(user_name=request.user.username).exclude(grantor='00000')
+    #shared_docs = Document.objects.filter(user_name=request.user.username).exclude(grantor='00000')
+    shared_docs=[]
+    docs_shared=Document_mongo.objects.all()
+    for docs in docs_shared:
+        for a in docs.assignee:
+            if str(a['id'])==str(request.user.pk):
+                shared_docs.append(docs)
     q = Friends.objects.filter(user_name=request.user.username)
     r = Friends.objects.filter(friend_name=request.user.username)
     det=Details.objects.filter(user_name=request.user.username)
@@ -118,9 +125,9 @@ def home(request,**kwargs):
              'friend_list':friend_list,'name':name,'age':age,
              'location':location,'phnumber':phnumber,'email':email,'shared_list':shared_list,'num_docs':i,
              'n_privacy':n_privacy,'a_privacy':a_privacy,'l_privacy':l_privacy,'p_privacy':p_privacy,'e_privacy':e_privacy,
-             'docs_privacy':docs_privacy,'file_url':'','file_name':'','flag':'','can_write':''}
-    if(kwargs):
-        context.update({'file_url':kwargs['file_url'],'file_name':kwargs['file_name'],'flag':kwargs['flag'],'can_write':kwargs['writable']})
+             'docs_privacy':docs_privacy,'file_url1':'','file_name':'','flag':'','can_write':''}
+    if('file_name' in request.session.keys()):
+        context.update({'file_url':request.session['file_url'],'file_name':request.session['file_name'],'flag':request.session['flag'],'can_write':request.session['writable']})
 
     return render_to_response(
             'home.html',
@@ -391,8 +398,12 @@ def shared(request):
             print "in form_valid_docform"
             instance.user_name= request.POST.get("friend_select","")
             instance.docfile = request.POST.get("docfile","")
-            instance.friend_name = request.POST.get("frnd_name","")
+            instance.friend_name = request.POST.get("friend_select","")
             instance.write = ((request.POST.get("write_select","")) in ("True","1"))
+            if(instance.write):
+                instance.write="can_edit"
+            else:
+                instance.write="can_read"
             instance.object_id=object_id
             #print "instance.write: "+ instance.write
             instance.grantor = request.user.username
@@ -401,12 +412,26 @@ def shared(request):
             instance.save()
             #print "shared object_id"+str(object_id)
             object = Document_mongo.objects.get(id=object_id)
-            print request.user.username
-            print request.user.pk
-            print instance.write
-
-            object.assignee.append({'user':str(request.user.username),'id':str(request.user.pk),'can_write':str(instance.write)})
+            # print request.user.username
+            # print instance.friend_name
+            # print request.user.pk
+            # print instance.write
+            friend_username=User.objects.filter(username=instance.friend_name)
+            if(friend_username):
+                id=friend_username[0].id
+            print id
+            flag= True
+            for d in object.assignee:
+                if d['id']==str(id):
+                    d.update({'permission':str(instance.write)})
+                    flag= False
+            if flag:
+                object.assignee.append({'username':str(instance.friend_name),'id':str(id),'permission':str(instance.write)})
             object.save()
+
+
+            updatedoc(request,object_id,id,instance.write)##rwlabel updated
+
         if form_notification.is_valid():
             print "form valid: notification"
             instance = form_notification.save(commit=False)
@@ -416,6 +441,7 @@ def shared(request):
             instance.save()
         else:
             print " notification invalid_form"
+
 
     #print "in form_invalid"
     # Load documents for the list page
@@ -614,8 +640,15 @@ def check_read(request):
         writable='True'
     print "writable"+str(writable)
     #kwargs={'url':url,'flag':'true','writable':'true'}
-    #print file
-    return home(request,file_url=file_url,file_name=file_name,flag='true',writable=writable)
+    #print file kwargs={'file_url1':str(file_url),'file_name1':str(file_name),'flag1':'true','writable1':str(writable)}
+    request.session['file_url']=str(file_url)
+    request.session['file_name']=str(file_name)
+    request.session['flag']="true"
+    request.session['writable']=str(writable)
+
+
+    return HttpResponseRedirect(reverse('home'))
+
 
 ############################################ check ifc_read #############################################################
 def check_ifcread(request=None,**kwargs):
@@ -649,6 +682,8 @@ def check_ifcread(request=None,**kwargs):
 #################################################check ifc_write ##################################################
 def check_ifcwrite(request=None,**kwargs):
     document = Document_mongo.objects.get(id=kwargs['id'])
-    return (document.is_editable(user_id=request.user.pk,session=request.session))
+    can_write = document.is_editable(user_id=request.user.pk,session=request.session)
+    #print "check_ifcwrite",can_write
+    return can_write
 
 

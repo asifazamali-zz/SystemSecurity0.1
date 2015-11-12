@@ -459,7 +459,7 @@ rawFile.send(null);
                         <ul style="list-style-type:none">
                         {% for documents in shared_docs %}
 
-                                <li><b>{{documents.grantor}}</b>:{{documents.docfile|filename}}
+                                <li>{{documents.docfile|filename}}
                                 <input form="check_read" type="hidden" name="doc_file_url" value="{{documents.docfile.url}}">
                                 <input form="check_read" type="hidden" name="doc_file_name" value="{{documents.docfile.name}}">
                                 <input form="check_read" type="hidden" name="doc_file_write" value="{{documents.write}}">

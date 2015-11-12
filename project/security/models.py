@@ -58,22 +58,29 @@ class Document_mongo(models.Model):
         print self.pk
         doc_label = lm.getLabel(self.pk)
         print "edit"
-        print doc_label
+        print "before edit doclabel",doc_label
+        print "before edit sublabel",session["rwlabel"]
         temp = rw.checkWrite(session["rwlabel"],doc_label)
+
+        print "after edit doclabel",doc_label
+        print "after edit sublabel",session["rwlabel"]
         if temp:
             testwriter = True
         else:
             testwriter = False
-
-        print testwriter
-        if ((user_id == self.user_id) and testwriter):# it is the user who created the document..
+        print 'testwriter',testwriter
+        if ((str(user_id) == str(self.user_id)) and testwriter):# it is the user who created the document..
             return True
+        #print "user_id self.user_id",user_id,self.user_id
+
         assignees=[]
         ##for user in self.assignee:
         for permission in self.assignee:
-            if (permission.get("id") == user_id and
-                    permission.get("can_write") == "True" and testwriter):
+            print "in for loop of assignee",permission.get("id"),permission.get("permission")
+            if (str(permission.get("id")) == str(user_id) and
+                    permission.get('permission')=='can_edit' and testwriter):
                 return True
+
         return False
 
 
