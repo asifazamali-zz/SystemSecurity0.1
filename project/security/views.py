@@ -128,7 +128,7 @@ def home(request):
              'docs_privacy':docs_privacy,'file_url1':'','file_name':'','flag':'','can_write':''}
     if('file_name' in request.session.keys()):
         context.update({'file_url':request.session['file_url'],'file_name':request.session['file_name'],'flag':request.session['flag'],'can_write':request.session['writable']})
-
+        del request.session['file_name']
     return render_to_response(
             'home.html',
             context,
@@ -486,8 +486,14 @@ def save(request):
         with open(MEDIA_ROOT+'/'+file_name,'w') as f:
             myfile= File(f)
             myfile.write(file_text)
-        
-        
+            myfile.closed
+        f.closed
+        with open(MEDIA_ROOT+'/'+file_name,'r') as f:
+            myfile=File(f)
+            for line in myfile:
+                print line
+            myfile.closed
+        f.closed
         print file_text,file_name
         
     # context = {
@@ -632,7 +638,10 @@ def check_read(request):
     file_name = request.POST.get('doc_file_name','No_url')
     file_writable = request.POST.get('doc_file_write','')
     file_object_id = request.POST.get('doc_file_id','')
+    #file_url = '/media/'+file_name
+
     print 'check_read'+str(file_writable)
+    print 'check_read'+str(file_url)
     print 'file_object_id'+str(file_object_id)
     check_ifcread(request,id=file_object_id)
     writable='False'
